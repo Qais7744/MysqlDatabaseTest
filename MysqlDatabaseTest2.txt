@@ -1,0 +1,383 @@
+Mysql Database Test2
+
+						DEFAULT Constraint
+
+
+show databases;
+
+USE employeesdb;
+
+select database();
+
+CREATE TABLE Personsdata (  
+    ID int NOT NULL,  
+    Name varchar(45) NOT NULL,  
+    Age int,
+    City varchar(25) default 'New York' 
+);
+
+INSERT INTO Personsdata(Id, Name, Age, City)   
+VALUES (1,'Robert', 15, 'Florida'),   
+(2, 'Joseph', 35, 'California'),   
+(3, 'Peter', 40, 'Alaska');
+
+select * from Personsdata;
+
+INSERT INTO Personsdata(Id, Name, Age) VALUES (1,'Brayan', 15); 
+
+select * from Personsdata;
+
+
+
+						PRIMARY KEY Constraint
+
+
+CREATE TABLE Persons (  
+    ID int NOT NULL PRIMARY KEY,   
+    Name varchar(45) NOT NULL,   
+    Age int,   
+    City varchar(25)); 
+
+INSERT INTO Persons(Id, Name, Age, City)   
+VALUES (1,'Robert', 15, 'Florida') ,   
+(2, 'Joseph', 35, 'California'),   
+(3, 'Peter', 40, 'Alaska');  
+
+Output => 3	24	00:12:04	INSERT INTO Persons(Id, Name, Age, City)   
+ VALUES (1,'Robert', 15, 'Florida') ,   
+ (2, 'Joseph', 35, 'California'),   
+ (3, 'Peter', 40, 'Alaska')	3 row(s) affected
+ Records: 3  Duplicates: 0  Warnings: 0	0.000 sec
+
+
+
+INSERT INTO Persons(Id, Name, Age, City)   
+VALUES (1,'Stephen', 15, 'Florida');
+
+Output => 0	25	00:12:23	INSERT INTO Persons(Id, Name, Age, City)   
+ VALUES (1,'Stephen', 15, 'Florida')	Error Code: 1062. Duplicate entry '1' for key 'persons.PRIMARY'	0.015 sec
+
+
+
+INSERT INTO Persons(Id, Name, Age) VALUES (1,'Brayan', 15); 
+
+Output => 0	34	00:32:43	INSERT INTO Persons(Id, Name, Age) VALUES (1,'Brayan', 15)	Error Code: 1062. Duplicate entry '1' for key 'persons.PRIMARY'	0.015 sec
+
+
+
+INSERT INTO Persons(Id, Name) VALUES (4,'sammy'); 
+
+Output => 3	35	00:34:39	INSERT INTO Persons(Id, Name) VALUES (4,'sammy')	1 row(s) affected	0.031 sec
+
+
+
+INSERT INTO Persons(Id, Name, city) VALUES (5,'samm','');
+
+Output => 3	36	00:35:11	INSERT INTO Persons(Id, Name, city) VALUES (5,'samm','')	1 row(s) affected	0.015 sec
+
+
+
+select * from Persons;
+
+Result => # ID	Name	Age	City
+	1	Robert	15	Florida
+	2	Joseph	35	California
+	3	Peter	40	Alaska
+	4	sammy	NULL	NULL	
+	5	samm	NULL
+
+Output => 3	38	00:36:30	select * from Persons
+ LIMIT 0, 1000	5 row(s) returned	0.000 sec / 0.000 sec
+		
+	
+
+
+						AUTO_INCREMENT Constraint
+
+
+CREATE TABLE Animals(  
+id int NOT NULL AUTO_INCREMENT,   
+name CHAR(30) NOT NULL,   
+PRIMARY KEY (id));
+
+INSERT INTO Animals (name) VALUES   
+('Tiger'),('Dog'),('Penguin'),   
+('Camel'),('Cat'),('Ostrich');
+
+Output => 3	27	00:15:57	INSERT INTO Animals (name) VALUES   
+ ('Tiger'),('Dog'),('Penguin'),   
+ ('Camel'),('Cat'),('Ostrich')	6 row(s) affected
+ Records: 6  Duplicates: 0  Warnings: 0	0.015 sec
+
+
+
+SELECT * FROM Animals;  
+
+Result => # id	name
+	1	Tiger
+	2	Dog
+	3	Penguin
+	4	Camel
+	5	Cat
+	6	Ostrich
+
+Output => 3	29	00:17:16	SELECT * FROM Animals
+ LIMIT 0, 1000	6 row(s) returned	0.000 sec / 0.000 sec
+
+
+
+
+						ENUM Constraint
+
+
+CREATE TABLE Shirts (    
+    id INT PRIMARY KEY AUTO_INCREMENT,     
+    name VARCHAR(35),     
+    size ENUM('small', 'medium', 'large', 'x-large')    
+); 
+
+output => 3	30	00:25:34	CREATE TABLE Shirts (    
+     id INT PRIMARY KEY AUTO_INCREMENT,     
+     name VARCHAR(35),     
+     size ENUM('small', 'medium', 'large', 'x-large')    
+ )	0 row(s) affected	0.047 sec
+
+	
+				
+INSERT INTO Shirts(id, name, size)     
+VALUES (1,'t-shirt', 'medium'),     
+(2, 'casual-shirt', 'small'),     
+(3, 'formal-shirt', 'large');
+
+Output => 3	31	00:26:47	INSERT INTO Shirts(id, name, size)     
+ VALUES (1,'t-shirt', 'medium'),     
+ (2, 'casual-shirt', 'small'),     
+ (3, 'formal-shirt', 'large')	3 row(s) affected
+ Records: 3  Duplicates: 0  Warnings: 0	0.016 sec
+
+
+
+SELECT * FROM Shirts;
+
+Result => # id	name		size
+	1	t-shirt		medium
+	2	casual-shirt	small
+	3	formal-shirt	large
+
+Output => 3	32	00:27:31	SELECT * FROM Shirts
+ LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
+
+
+
+
+						INDEX Constraint
+
+
+CREATE INDEX idx_name ON Shirts(name);  
+
+Output => 3	39	00:42:40	CREATE INDEX idx_name ON Shirts(name)	0 row(s) affected
+ Records: 0  Duplicates: 0  Warnings: 0	0.094 sec
+
+
+
+SELECT * FROM Shirts USE INDEX(idx_name);
+
+Result => # id	name		size
+	1	t-shirt		medium
+	2	casual-shirt	small
+	3	formal-shirt	large
+
+Output => 3	40	00:43:53	SELECT * FROM Shirts USE INDEX(idx_name)
+ LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
+
+
+
+
+						Foreign Key Constraint
+
+
+CREATE TABLE Persons2 (Person_ID int PRIMARY KEY,   
+Name varchar(45) NOT NULL,   
+Age int,   
+City varchar(25)  
+);
+
+Output => 3	41	00:45:58	CREATE TABLE Persons2 (Person_ID int PRIMARY KEY,   
+ Name varchar(45) NOT NULL,   
+ Age int,   
+ City varchar(25)  
+ )	0 row(s) affected	0.047 sec
+
+
+
+CREATE TABLE Orders (  
+    Order_ID int NOT NULL PRIMARY KEY,  
+    Order_Num int NOT NULL,  
+    Person_ID int,  
+    FOREIGN KEY (Person_ID) REFERENCES Persons2(Person_ID)  
+);
+
+Output => 3	42	00:47:02	CREATE TABLE Orders (  
+     Order_ID int NOT NULL PRIMARY KEY,  
+     Order_Num int NOT NULL,  
+     Person_ID int,  
+     FOREIGN KEY (Person_ID) REFERENCES Persons2(Person_ID)  
+ )	0 row(s) affected	0.047 sec
+
+
+
+						MySQL INSERT Statement
+
+
+INSERT INTO Persons2 values(1,'john',30,'london'),
+                          (2,'david',35,'paris'),
+                          (3,'roman',40,'tokiyo');
+
+Output => 3	43	00:49:48	insert into Persons2 values(1,'john',30,'london'),
+                           (2,'david',35,'paris'),
+                           (3,'roman',40,'tokiyo')	3 row(s) affected
+ Records: 3  Duplicates: 0  Warnings: 0	0.016 sec
+
+
+
+INSERT INTO Orders values(4, 555, 1),
+                         (5, 666, 2),
+                         (6, 777, 3);
+
+Output => 3	43	00:49:48	insert into Persons2 values(1,'john',30,'london'),
+                           (2,'david',35,'paris'),
+                           (3,'roman',40,'tokiyo')	3 row(s) affected
+ Records: 3  Duplicates: 0  Warnings: 0	0.016 sec
+
+
+
+INSERT INTO Orders(Order_ID,Order_Num) values (8, 1522); 
+
+Output => 3	44	00:51:39	insert into Orders(Order_ID,Order_Num) values (8, 1522)	1 row(s) affected	0.032 sec
+
+
+
+SELECT * from Persons2;
+
+Result =>        # Person_ID	Name	Age	City
+		1	john	30	london
+		2	david	35	paris
+		3	roman	40	tokiyo
+
+Output => 3	45	00:54:20	select * from Persons2
+ LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
+
+
+
+SELECT * from Orders;
+
+Result =>       # Order_ID	Order_Num	Person_ID
+		4	555		1
+		5	666		2
+		6	777		3
+		8	1522		NULL
+
+
+Output => 3	53	01:00:29	select * from Orders
+ LIMIT 0, 1000	4 row(s) returned	0.000 sec / 0.000 sec
+
+
+
+
+						MySQL UPDATE Query
+    
+
+UPDATE Orders set Person_ID = 9 where Order_ID=4;
+
+Output => 3	47	00:58:50	UPDATE Orders set Person_ID = 9 where Order_ID=4	0 row(s) affected
+ Rows matched: 0  Changed: 0  Warnings: 0	0.031 sec
+
+
+
+UPDATE update Orders set Person_ID = 3, Order_Num =777 where Order_ID=4;
+
+Output => 3	62	01:06:15	update Orders set Person_ID = 3, Order_Num =777 where Order_ID=4	1 row(s) affected
+ Rows matched: 1  Changed: 1  Warnings: 0	0.031 sec
+
+
+
+SELECT * from Orders;
+
+Result =>       # Order_ID	Order_Num	Person_ID
+		4	777		3
+		5	666		2
+		6	777		3
+		8	1522		NULL
+
+Output => 3	63	01:06:23	select * from Orders
+ LIMIT 0, 1000	4 row(s) returned	0.016 sec / 0.000 sec
+
+
+
+
+						MySQL DELETE Statement
+
+
+DELETE from Orders where Order_ID=4;
+
+Output => 3	64	01:09:40	DELETE from Orders where Order_ID=4	1 row(s) affected	0.016 sec
+
+
+
+DELETE from Orders where Person_ID=1;
+
+Output => 3	65	01:10:54	DELETE from Orders where Person_ID=1	0 row(s) affected	0.000 sec
+
+Result =>       # Order_ID	Order_Num	Person_ID
+		5	666		2
+		6	777		3
+		8	1522	
+
+
+
+DELETE from Orders order by Order_ID Desc limit 2;
+
+Output => 3	67	01:12:12	DELETE from Orders order by Order_ID Desc limit 2	2 row(s) affected	0.031 sec			
+
+Result =>       # Order_ID	Order_Num	Person_ID
+		5	666		2
+
+
+
+						MySQL SELECT Statement
+
+
+SELECT Order_ID,Order_Num,Person_ID from Orders;
+
+Result =>       # Order_ID	Order_Num	Person_ID
+		5	666		2
+
+Output => 3	69	01:15:09	select Order_ID,Order_Num,Person_ID from Orders
+ LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
+
+
+
+SELECT Order_ID,Order_Num,Person_ID from Orders where Order_ID=5
+
+Result =>       # Order_ID	Order_Num	Person_ID
+		5	666		2
+
+Output => 3	70	01:16:21	select Order_ID,Order_Num,Person_ID from Orders where Order_ID=5
+ LIMIT 0, 1000	1 row(s) returned	0.016 sec / 0.000 sec
+
+
+
+SELECT * from Orders where Person_ID in(1,1);
+ 
+Output => 0	73	01:19:56	select Order_ID,Order_Num,Person_ID from Orders where Order_ID=5
+ SELECT * from Orders where Person_ID in(1,1)	Error Code: 1064. You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT * from Orders where Person_ID in(1,1)' at line 2	0.000 sec
+
+
+
+SELECT * from Orders Group by Person_ID;
+
+Result =>       # Order_ID	Order_Num	Person_ID
+		5	666		2
+
+Output => 3	72	01:18:46	select * from Orders Group by Person_ID
+ LIMIT 0, 1000	1 row(s) returned	0.015 sec / 0.000 sec
