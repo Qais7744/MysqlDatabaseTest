@@ -361,6 +361,7 @@ Output => 3	32	01:07:32	select num_values from table1 where num_values > any(sel
  LIMIT 0, 1000	2 row(s) returned	0.016 sec / 0.000 sec
 
 
+
 select * from cus_table where name in('john','rock','david');
 
 select * from cus_table where name Not in('john','rock','david');
