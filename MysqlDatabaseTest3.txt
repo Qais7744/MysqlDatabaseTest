@@ -1,307 +1,367 @@
-Mysql Database Test3
 
-						Count
-
-SELECT * from Orders;
-
-Result =>       # Order_ID   Order_Num           Person_ID
-		1	111	 	1
-		2	222		2
-		3	777		3
-		4	555		1
-		5	666		2
-		6	666		3
-		7	777		3
-
-Output => 3	26	20:10:07	select * from Orders
- LIMIT 0, 1000	7 row(s) returned	0.000 sec / 0.000 sec
+						MySQL IF()
 
 
-SELECT * from Orders Group by Person_ID;
+SELECT IF(150 > 200,'YES','NO');  
 
-Result =>  # Order_ID   Order_Num           Person_ID
-		1	111	 	1
-		2	222		2
-		3	777		3
+Result => 
+	# IF(150 > 200,'YES','NO')
+	NO
 
-Output => 3	27	20:10:07	select * from Orders Group by Person_ID
- LIMIT 0, 1000	3 row(s) returned	0.015 sec / 0.000 sec
-
-
-SELECT *, count(*) from Orders group by Person_ID;
-
-Result =>          # Order_ID  Order_Num       Person_ID
-		1	111		1
-		2	222		2
-		3	777		3
-
-Output => 3	25	20:03:40	select *, count(*) from Orders group by Person_ID
- LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
-
-
-SELECT *, count(*) from Orders group by Person_ID having Person_ID = 2;
-
-Result =>         # Order_ID      Order_Num        Person_ID	          count(*)
-		2	      222		  2		2
-
-Output =>  3	27	20:10:07	select * from Orders Group by Person_ID
- LIMIT 0, 1000	3 row(s) returned	0.015 sec / 0.000 sec
-
-
-SELECT * from Orders limit 4;
-
-Result =>        # Order_ID	Order_Num	Person_ID
-		1	      111		1
-		2	      222		2
-		3	      777		3
-		4	      555		1
-
-Output => 3	31	00:25:13	select * from Orders limit 5	5 row(s) returned	0.000 sec / 0.000 sec
-
-
-						MySQL WHERE Clause
-
-
-SELECT * from Orders where Order_ID =1;
-
-Result =>        # Order_ID	Order_Num	Person_ID
-		1	      111		1
-
-Output => 3	35	00:31:48	SELECT * from Orders where Order_ID =1
+Output => 3	3	17:07:35	SELECT IF(150 > 200,'YES','NO')
  LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
 
 
 
-						MySQL WHERE Clause with AND condition
+
+						MySQL IFNULL()
 
 
-SELECT * from Orders where Order_ID > 2 and Person_ID >= 3;
+SELECT IFNULL(NULL,5);  
+
+Result => 
+# IFNULL(NULL,5)
+5
+
+Output => 3	18	17:58:39	SELECT IFNULL(NULL,5)
+ LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
 
 
-Result => 	# Order_ID        Order_Num	        Person_ID
-		3		777		3
-		6		666		3
-		7		777		3
+SELECT IFNULL(4,8); 
 
-Output => 3	57	00:41:41	SELECT * from Orders where Order_ID > 2 and Person_ID >= 3
- LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
+Result => 
+# IFNULL(4,8)
+4
 
-
-
-						WHERE Clause with OR condition
-
-
-SELECT * from Orders where Order_ID = 1 OR Person_ID = 1;
-
-Result => 	# Order_ID        Order_Num	        Person_ID
-		       1	                  111	    	1
-		       4	                  555		1
-
-Output => 3	9	00:45:44	SELECT * from Orders where Order_ID = 1 OR Person_ID = 1
- LIMIT 0, 1000	2 row(s) returned	0.031 sec / 0.000 sec
-
-
-
-						MySQL WHERE Clause with combination of AND & OR conditions
-
-
-
-SELECT * from Orders where (Order_ID > 2 and Person_ID > 2) or Order_Num = 111;
-
-Result =>  # Order_ID	Order_Num	Person_ID
-		1	111		1
-		3	777		3
-		6	666		3
-		7	777		3
-
-Output => 3	22	00:52:14	SELECT * from Orders where Order_ID > 2 and Person_ID > 3 or Order_Num = 111
+Output => 3	19	18:26:11	SELECT IFNULL(4,8)
  LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
 
 
 
-						MySQL Distinct Clause
+
+						MySQL NULLif()
 
 
-SELECT distinct Person_ID from Orders;
- 
-Result => # Person_ID
-	1
-	2
-	3
+SELECT NULLIF("Qais", "Qais");  
 
-Output => 3	27	00:58:06	SELECT distinct Person_ID from Orders
- LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec 
+Result =>
+# NULLIF("Qais", "Qais")
+            NULL
 
+Output => 3	25	18:33:06	SELECT NULLIF("Qais", "Qais")
+ LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
 
 
-						MySQL ORDER BY: without using ASC/DESC attribute
+SELECT NULLIF(400,450);  
+
+Result => # NULLIF(400,450)
+	          400
+
+Output => 3	28	18:34:19	SELECT NULLIF(400,450)
+ LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
 
 
 
-SELECT * from Orders Order by Person_ID asc;
+select * from customer;
+  
+Result => # Id 	Name	Occupation	Income	Qualification
+                 NULL	NULL	NULL		NULL	NULL
+
+Output => 3	21	15:50:44	select * from customer
+ LIMIT 0, 1000	0 row(s) returned	0.000 sec / 0.000 sec
+
+
+		Change Data Type to Varchar
+
+ALTER TABLE customer Modify column Qualification varchar(25);
+
+Output => 3	24	15:56:34	ALTER TABLE customer Modify column Qualification varchar(25)	0 row(s) affected
+ Records: 0  Duplicates: 0  Warnings: 0	0.078 sec
+
+
+						NULLIF
+
+INSERT INTO customer (Id, Name, Occupation, Income, Qualification) VALUES (1,'John Miller', 'Developer', '20000', 'Btech'), 
+							(2, 'Mark Robert', 'Enginneer', '40000', 'Btech'),  
+							(3, 'Reyan Watson', 'Scientists', '60000', 'MSc'),
+							(4, 'Shane Trump', 'Businessman', '10000', 'MBA'),
+							(5, 'Adam Obama', 'Manager', '80000', 'MBA'),  
+							(6, 'Rincky Ponting', 'Cricketer', '200000', 'Btech'); 
+
+
+Output => 3	29	15:58:35	INSERT INTO customer (Id, Name, Occupation, Income, Qualification) VALUES (1,'John Miller', 'Developer', '20000', 'Btech'), 
+                 (2, 'Mark Robert', 'Enginneer', '40000', 'Btech'),  
+                 (3, 'Reyan Watson', 'Scientists', '60000', 'MSc'),
+                 (4, 'Shane Trump', 'Businessman', '10000', 'MBA'),
+                 (5, 'Adam Obama', 'Manager', '80000', 'MBA'),  
+                 (6, 'Rincky Ponting', 'Cricketer', '200000', 'Btech')	6 row(s) affected
+ Records: 6  Duplicates: 0  Warnings: 0	0.016 sec
+
 
 Result => 
-# Order_ID	Order_Num	Person_ID
-	1	111		1
-	4	555		1
-	2	222		2
-	5	666		2
-	3	777		3
-	6	666		3
-	7	777		3
-
-Output => 3	37	01:03:14	SELECT * from Orders Order by Person_ID asc
- LIMIT 0, 1000	7 row(s) returned	0.000 sec / 0.000 sec
-
-SELECT * from Orders Order by Person_ID desc;
-
-Result => 
-        # Order_ID   Order_Num	Person_ID
-	3	777		3
-	6	666		3
-	7	777		3
-	2	222		2
-	5	666		2
-	1	111		1
-	4	555		1
-
-Output => 3	41	01:03:48	SELECT * from Orders Order by Person_ID desc
- LIMIT 0, 1000	7 row(s) returned	0.000 sec / 0.000 sec
-
-
-SELECT * from Orders where Person_ID < 2 order by Person_ID;
-
-Result => 
-# Order_ID	Order_Num	Person_ID
-	1	111		1
-	4	555		1
-
-Output => 3	45	01:07:35	SELECT * from Orders where Person_ID < 2 order by Person_ID
- LIMIT 0, 1000	2 row(s) returned	0.000 sec / 0.000 sec
-
-
-SELECT * from Orders where Person_ID < 3 order by Order_Num;
-
-Result => 
-# Order_ID	Order_Num	Person_ID
-	1	111		1
-	2	222		2
-	4	555		1
-	5	666		2
-
-Output =>  3	52	01:10:00	SELECT * from Orders where Person_ID < 3 order by Order_Num
- LIMIT 0, 1000	4 row(s) returned	0.000 sec / 0.000 sec
-
-
-
-
-						MySQL GROUP BY Clause with SUM function
-
-
-SELECT *, sum(Person_ID) from Orders group by Person_ID;
-
-Result => 
-# Order_ID	Order_Num	Person_ID	sum(Person_ID)
-	1	111		1		2
-	2	222		2		4
-	3	777		3		9
-
-Output => 3	56	01:13:56	select *, sum(Person_ID) from Orders group by Person_ID
- LIMIT 0, 1000	3 row(s) returned	0.016 sec / 0.000 sec
-
-
-SELECT *, sum(Order_Num) from Orders group by Person_ID;
-
-Result =>  
-# Order_ID	Order_Num	Person_ID	sum(Order_Num)
-	1	111		1		666
-	2	222		2		888
-	3	777		3		2220	
-
-Output =>  3	61	01:16:52	select *, sum(Order_Num) from Orders group by Person_ID
- LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
-
-
-SELECT *, min(Order_Num) from Orders group by Person_ID;
-
-Result =>  
-# Order_ID	Order_Num	Person_ID	min(Order_Num)
-	1	111		1		111
-	2	222		2		222
-	3	777		3		666
-
-Output => 3	71	01:20:04	SELECT *, min(Order_Num) from Orders group by Person_ID
- LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
-
+# Id	Name		Occupation	Income	Qualification
+1	John Miller	Developer	20000	Btech
+2	Mark Robert	Enginneer	40000	Btech
+3	Reyan Watson	Scientists		60000	MSc
+4	Shane Trump	Businessman	10000	MBA
+5	Adam Obama	Manager		80000	MBA
+6	Rincky Ponting	Cricketer		200000	Btech
 
 
 						
-						MySQL GROUP BY Clause with MIN function
+ SELECT Name, Occupation, Qualification,   
+NULLIF (Qualification,"Btech") result   
+FROM customer;  
 
+Result=> 
+# Name		Occupation	Qualification	result
+John Miller	Developer	Btech		NULL
+Mark Robert	Enginneer	Btech		NULL
+Reyan Watson	Scientists		MSc		MSc
+Shane Trump	Businessman	MBA		MBA
+Adam Obama	Manager		MBA		MBA
+Rincky Ponting	Cricketer		Btech		NULL
 
-SELECT *, min(Order_Num) as Minimum_Order_num from Orders group by Person_ID;
-
-Result =>  
-# Order_ID	Order_Num	Person_ID	Minimum_Order_num
-	1	111		1		111
-	2	222		2		222
-	3	777		3		666
-
-Output => 3	75	01:22:27	SELECT *, min(Order_Num) as Minimum_Order_num from Orders group by Person_ID
- LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
-
-
-
-
-						MySQL GROUP BY Clause with MAX function
-
-
-SELECT *, max(Order_Num) as Max_Order_num from Orders group by Person_ID;
-
-Result =>  # Order_ID	Order_Num	Person_ID	Max_Order_num
-		1	111		1		555
-		2	222		2		666
-		3	777		3		777
-
-Output => 3	79	01:24:15	SELECT *, max(Order_Num) as Max_Order_num from Orders group by Person_ID
- LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
+Output => 3	31	16:02:17	SELECT Name, Occupation, Qualification,   
+ NULLIF (Qualification,"Btech") result   
+ FROM customer
+ LIMIT 0, 1000	6 row(s) returned	0.000 sec / 0.000 sec
 
 
 
 
-						MySQL GROUP BY Clause with AVG function
 
+						Simple CASE statement
 
-SELECT *, Avg(Order_Num) as avg_Order_num from Orders group by Person_ID;
+ SELECT CASE 1 WHEN 1 THEN 'one' WHEN 2 THEN 'two' ELSE 'more' END;  
 
 Result => 
-# Order_ID	Order_Num	Person_ID	avg_Order_num
-	1	111		1		333.0000
-	2	222		2		444.0000
-	3	777		3		740.0000
+# CASE 1 WHEN 1 THEN 'one' WHEN 2 THEN 'two' ELSE 'more' END
+one
 
-Output => 3	83	01:26:00	SELECT *, Avg(Order_Num) as avg_Order_num from Orders group by Person_ID
+Output => 3	33	16:09:30	SELECT CASE 1 WHEN 1 THEN 'one' WHEN 2 THEN 'two' ELSE 'more' END
+ LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
+
+
+
+
+						MySQL IF Statement
+
+						IF-THEN Statement
+
+CREATE PROCEDURE myResult(original_rate NUMERIC(6,2),OUT discount_rate NUMERIC(6,2))  
+     NO SQL  
+      BEGIN  
+         IF (original_rate>200) THEN  
+            SET discount_rate=original_rate*.5;  
+         END IF;  
+         select discount_rate;  
+     END$$  
+DELIMITER $$;  
+
+
+Output =>
+3	34	16:17:54	CREATE PROCEDURE myResult(original_rate NUMERIC(6,2),OUT discount_rate NUMERIC(6,2))  
+      NO SQL  
+       BEGIN  
+          IF (original_rate>200) THEN  
+             SET discount_rate=original_rate*.5;  
+          END IF;  
+          select discount_rate;  
+      END	0 row(s) affected	0.032 sec
+
+
+set @p = 600;  
+set @dp = 500;  
+
+Output => 3	36	16:20:09	set @p = 600;  
+ set @dp = 500;	0 row(s) affected	0.032 sec
+
+
+call myResult(@p, @dp)  
+
+Result => 
+# discount_rate
+300.00
+
+
+Output => 
+3	38	16:20:52	set @p = 600;  
+ set @dp = 500;  
+ 
+ call myResult(@p, @dp)	1 row(s) returned	- / 0.000 sec
+
+
+
+
+						MySQL Boolean
+
+CREATE TABLE student (  
+    studentid INT PRIMARY KEY AUTO_INCREMENT,  
+    name VARCHAR(40) NOT NULL,  
+    age VARCHAR(3),  
+    pass BOOLEAN  
+);  
+
+Output => 3	44	16:26:56	CREATE TABLE student (  
+     studentid INT PRIMARY KEY AUTO_INCREMENT,  
+     name VARCHAR(40) NOT NULL,  
+     age VARCHAR(3),  
+     pass BOOLEAN  
+ );   
+ 
+
+ DESCRIBE student;  
+
+Result =>
+# Field		Type	Null	Key	Default		Extra
+studentid	int		NO	PRI		auto_increment
+name		varchar(40)	NO			
+age		varchar(3)	YES			
+pass		tinyint(1)		YES		
+
+
+Output => 3	8	16:34:16	DESCRIBE student	4 row(s) returned	0.000 sec / 0.000 sec
+
+
+ INSERT INTO student(name, pass) VALUES('Peter',true), ('John',false);  
+
+Output => 
+3	10	16:36:48	INSERT INTO student(name, pass) VALUES('Peter',true), ('John',false)	2 row(s) affected
+ Records: 2  Duplicates: 0  Warnings: 0	0.015 sec
+
+
+ SELECT  studentid, name, pass FROM student;  
+
+Result => 
+# studentid	name	pass
+1		Peter	1
+2		John	0
+
+Output => 3	12	16:37:31	SELECT  studentid, name, pass FROM student
+ LIMIT 0, 1000	2 row(s) returned	0.016 sec / 0.000 sec
+
+
+
+
+						MySQL LIKE condition
+
+
+MySQL LIKE Examples
+1) Using % (percent) Wildcard:
+
+
+  select * from persons;
+
+Result => 
+# ID	Name	Age	City
+1	Robert	15	Florida
+2	Joseph	35	California
+3	Peter	40	Alaska
+4	sammy	49	California
+5	samm	30	India
+
+Output => 3	19	00:25:28	select * from persons
+ LIMIT 0, 1000	5 row(s) returned	0.047 sec / 0.000 sec
+
+
+SELECT name  
+FROM persons  
+WHERE City LIKE 'Cali%';  
+
+Result => 
+# name
+Joseph
+
+Output => 3	20	00:28:16	SELECT name  
+ FROM persons  
+ WHERE City LIKE 'Cali%'
+ LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
+
+
+						Using _ (Underscore) Wildcard:
+
+SELECT name  
+FROM persons  
+WHERE City LIKE 'Cali__rnia'; 
+
+Result => 
+# name
+Joseph
+
+Output => 3	21	00:36:03	SELECT name  
+ FROM persons  
+ WHERE City LIKE 'Cali__rnia'
+ LIMIT 0, 1000	1 row(s) returned	0.000 sec / 0.000 sec
+
+
+						Using NOT Operator:
+
+SELECT name  
+FROM persons  
+WHERE City NOT LIKE 'Cali%';  
+
+Result => 
+# name
+Robert
+Peter
+samm
+
+Output => 3	22	00:37:59	SELECT name  
+ FROM persons  
+ WHERE City NOT LIKE 'Cali%'
  LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
 
 
 
+						MySQL IN Condition
 
-
-						HAVING Clause with SUM function
-
-SELECT *, sum(Order_Num) from Orders where Person_ID >= 2 group by Person_ID having Order_Num >= 222;
+SELECT name  
+FROM persons  
+WHERE Name in ('Robert','Joseph','Samm');
 
 Result => 
-# Order_ID	Order_Num	Person_ID	sum(Order_Num)
-	2	222		2		888
-	3	777		3		2220
+# name
+Robert
+Joseph
+samm
 
-Output => 3	92	01:34:30	SELECT *, sum(Order_Num) from Orders where Person_ID >= 2 group by Person_ID having Order_Num >= 222
- LIMIT 0, 1000	2 row(s) returned	0.000 sec / 0.000 sec
-
-
-
-
-
+Output => 3	24	00:47:27	SELECT name  
+ FROM persons  
+ WHERE Name in ('Robert','Joseph','Samm')
+ LIMIT 0, 1000	3 row(s) returned	0.000 sec / 0.000 sec
 
 
+
+CREATE TABLE table1(
+   
+    num_values int);
+
+   INSERT INTO table1(num_values)
+  
+   VALUES(10), (20), (25);
+
+CREATE TABLE table2(
+   
+   num_val int);
+   
+   INSERT INTO table2(num_val)
+   
+   VALUES(10), (20), (25);
+
+
+select num_values from table1 where num_values > any(select num_val from table2);
+
+Result =>
+# num_values
+20
+25
+
+Output => 3	32	01:07:32	select num_values from table1 where num_values > any(select num_val from table2)
+ LIMIT 0, 1000	2 row(s) returned	0.016 sec / 0.000 sec
+
+
+
+select * from cus_table where name in('john','rock','david');
+
+select * from cus_table where name Not in('john','rock','david');
